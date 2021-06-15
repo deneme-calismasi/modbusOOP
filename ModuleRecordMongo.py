@@ -6,7 +6,7 @@ def main():
     while True:
         rec.RecordMongo.record_mongo()
         print("Kayıt başarılı")
-        time.sleep(60)
+        time.sleep(300)
 
 
 if __name__ == '__main__':
