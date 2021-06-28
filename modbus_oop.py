@@ -34,7 +34,6 @@ class ModbusOop(object):
                                     "$lt": dt.datetime.now().strftime('%Y-%m-%d %X')}}]},
                 {'_id': 0}))
 
-        print(xs_doc)
         xs_res = [list(idx.values()) for idx in xs_doc]
 
         df = pd.DataFrame(list(xs_doc))
