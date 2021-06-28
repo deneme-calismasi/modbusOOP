@@ -7,8 +7,9 @@ import pandas as pd
 import pymongo
 import cnfOperations as cnf
 import recordMongo as rm
-import drawFigure as drf
 import sys
+import plotly.express as px
+import numpy as np
 
 
 class ModbusOop(object):
@@ -45,6 +46,23 @@ class ModbusOop(object):
                     xs_res[index1][index2] = (float(item))
                 except ValueError:
                     pass
+        df = pd.DataFrame(xs_doc)
+        df['Temp'] = df['Temp'].astype(np.float64)
+        fig = px.line(df, x='Time', y='Temp', title='Temperature °C - Time', color='Sensor No')
+
+        fig.update_xaxes(
+            rangeselector=dict(
+                buttons=list([
+                    dict(count=1, label="1m", step="month", stepmode="backward"),
+                    dict(count=3, label="3m", step="month", stepmode="backward"),
+                    dict(count=6, label="6m", step="month", stepmode="todate"),
+                    dict(count=1, label="1y", step="year", stepmode="backward"),
+                    dict(step="all")
+                ])
+            )
+        )
+
+        return fig.show()
 
     def _quit(event):
         sys.exit()
@@ -81,8 +99,6 @@ class ModbusOop(object):
 
         start_range = 0
 
-        drw = drf.DrawFigure
-
         for record in rem.record_mongo()[-(self.count // 2):]:
             self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                              values=(str(record[2]), int(record[0]), float(record[1])))
@@ -91,12 +107,13 @@ class ModbusOop(object):
         menu = Menu(self.root)
         self.root.config(menu=menu)
         filemenu = Menu(menu)
-        menu.add_cascade(label='File', menu=filemenu)
-        filemenu.add_command(label='New')
-        filemenu.add_command(label='Open Calendar')
-        filemenu.add_separator()
-        filemenu.add_command(label='Exit', command=self._quit)
-        helpmenu = Menu(menu)
-        menu.add_cascade(label='Figure', command=drw.draw_figure)
-        helpmenu.add_command(label='About')
+        # menu.add_cascade(label='File', menu=filemenu)
+        menu.add_cascade(label='Quit', command=self._quit)
+        # filemenu.add_command(label='New')
+        # filemenu.add_command(label='Open Calendar')
+        # filemenu.add_separator()
+        # filemenu.add_command(label='Exit', command=self._quit)
+        # helpmenu = Menu(menu)
+        # menu.add_cascade(label='Figure', command=self.on_double_click)
+        # helpmenu.add_command(label='About')
         return self.root.mainloop()

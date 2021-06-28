@@ -1,6 +1,7 @@
 import cnfOperations as cnf
 import pymongo
 import pandas as pd
+import numpy as np
 
 
 class GetMongo():
@@ -11,4 +12,5 @@ class GetMongo():
         mycol = mydb[cnf.cnfOperation.readMy_Col()]
         mydoc_all = mycol.find()
         df = pd.DataFrame(list(mydoc_all))
-        return df.to_csv("abc.csv", sep=",")
+        df['Temp'] = df['Temp'].astype(np.float64)
+        return df
