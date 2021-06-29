@@ -42,7 +42,7 @@ class ModbusOop(object):
         xs_res = [list(idx.values()) for idx in xs_doc]
 
         df = pd.DataFrame(list(xs_doc))
-        df.to_csv("sensor_no.csv", sep=",")
+        df['Temp'] = df['Temp'].astype(np.float64)
 
         for index1, row in enumerate(xs_res):
             for index2, item in enumerate(row):
@@ -120,7 +120,7 @@ class ModbusOop(object):
         self.root.config(menu=menu)
         menu.add_cascade(label='Quit', command=self._quit)
 
-        self.tree.after(10000, self.update_window_table)
+        self.tree.after(60000, self.update_window_table)
         return self.root.mainloop()
 
     def update_window_table(self):
@@ -142,5 +142,5 @@ class ModbusOop(object):
 
         self.root.update()
         self.root.update_idletasks()
-        self.tree.after(10000, self.update_window_table)
+        self.tree.after(60000, self.update_window_table)
         return self.root.mainloop()
