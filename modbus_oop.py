@@ -10,7 +10,6 @@ import recordMongo as rm
 import sys
 import plotly.express as px
 import numpy as np
-import time
 
 
 class ModbusOop(object):
@@ -108,7 +107,7 @@ class ModbusOop(object):
         self.tree.tag_configure('low', foreground='black')
 
         for record in rem.record_mongo()[-(self.count // 2):]:
-            if (float(record[1]) > float(30.0)):
+            if float(record[1]) > float(30.0):
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
             else:
@@ -117,20 +116,9 @@ class ModbusOop(object):
 
             start_range += 1
 
-        # self.tree.pack()
-
         menu = Menu(self.root)
         self.root.config(menu=menu)
-        filemenu = Menu(menu)
-        # menu.add_cascade(label='File', menu=filemenu)
         menu.add_cascade(label='Quit', command=self._quit)
-        # filemenu.add_command(label='New')
-        # filemenu.add_command(label='Open Calendar')
-        # filemenu.add_separator()
-        # filemenu.add_command(label='Exit', command=self._quit)
-        # helpmenu = Menu(menu)
-        # menu.add_cascade(label='Figure', command=self.on_double_click)
-        # helpmenu.add_command(label='About')
 
         self.tree.after(10000, self.update_window_table)
         return self.root.mainloop()
@@ -140,14 +128,8 @@ class ModbusOop(object):
 
         start_range = 0
 
-        # denemeSicaklik = 20.0
-
-        print("update e geldi")
-
         for i in self.tree.get_children():
             self.tree.delete(i)
-
-        print("tree silindi")
 
         for record in rem.record_mongo()[-(self.count // 2):]:
             if float(record[1]) > 30.0:
@@ -157,11 +139,8 @@ class ModbusOop(object):
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
             start_range += 1
-            # denemeSicaklik += 0.5
 
         self.root.update()
         self.root.update_idletasks()
-        # time.sleep(10)
         self.tree.after(10000, self.update_window_table)
-        print("gösterime geldi")
         return self.root.mainloop()
