@@ -10,13 +10,19 @@ import recordMongo as rm
 import sys
 import plotly.express as px
 import numpy as np
+import time
 
 
 class ModbusOop(object):
     def __init__(self):
         self.count = int(cnf.cnfOperation.readModBusCount())
         self.root = tk.Tk()
+        self.style = ttk.Style()
+        self.style.map("Treeview", foreground=self.fixed_map("foreground"), background=self.fixed_map("background"))
         self.tree = ttk.Treeview(self.root)
+
+    def fixed_map(self, option):
+        return [elm for elm in self.style.map("Treeview", query_opt=option) if elm[:2] != ("!disabled", "!selected")]
 
     def on_double_click(self, event):
         item = self.tree.identify('item', event.x, event.y)
@@ -98,10 +104,20 @@ class ModbusOop(object):
 
         start_range = 0
 
+        self.tree.tag_configure('high', foreground='red')
+        self.tree.tag_configure('low', foreground='black')
+
         for record in rem.record_mongo()[-(self.count // 2):]:
-            self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
-                             values=(str(record[2]), int(record[0]), float(record[1])))
+            if (float(record[1]) > float(30.0)):
+                self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
+                                 values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
+            else:
+                self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
+                                 values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
+
             start_range += 1
+
+        # self.tree.pack()
 
         menu = Menu(self.root)
         self.root.config(menu=menu)
@@ -115,4 +131,37 @@ class ModbusOop(object):
         # helpmenu = Menu(menu)
         # menu.add_cascade(label='Figure', command=self.on_double_click)
         # helpmenu.add_command(label='About')
+
+        self.tree.after(10000, self.update_window_table)
+        return self.root.mainloop()
+
+    def update_window_table(self):
+        rem = rm.RecordMongo
+
+        start_range = 0
+
+        # denemeSicaklik = 20.0
+
+        print("update e geldi")
+
+        for i in self.tree.get_children():
+            self.tree.delete(i)
+
+        print("tree silindi")
+
+        for record in rem.record_mongo()[-(self.count // 2):]:
+            if float(record[1]) > 30.0:
+                self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
+                                 values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
+            else:
+                self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
+                                 values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
+            start_range += 1
+            # denemeSicaklik += 0.5
+
+        self.root.update()
+        self.root.update_idletasks()
+        # time.sleep(10)
+        self.tree.after(10000, self.update_window_table)
+        print("gösterime geldi")
         return self.root.mainloop()

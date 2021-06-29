@@ -7,8 +7,10 @@ def main():
     while True:
         rn = mop.ModbusOop()
         rn.window_table()
+        rn.update_window_table()
         gvm = gm.GetMongo()
         gvm.get_value_mongo()
+
         sys.exit()
 
 
