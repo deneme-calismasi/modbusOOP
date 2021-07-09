@@ -19,6 +19,7 @@ class ModbusOop(object):
         self.style = ttk.Style()
         self.style.map("Treeview", foreground=self.fixed_map("foreground"), background=self.fixed_map("background"))
         self.tree = ttk.Treeview(self.root)
+        self.canvas = tk.Canvas(self.root, width=1580, height=600)
 
     def fixed_map(self, option):
         return [elm for elm in self.style.map("Treeview", query_opt=option) if elm[:2] != ("!disabled", "!selected")]
@@ -77,6 +78,9 @@ class ModbusOop(object):
         self.root.geometry("480x630")
         self.root.grid()
 
+        p1 = PhotoImage(file='images1.png')
+        self.root.iconphoto(False, p1)
+
         self.tree.pack(side='top', fill=tkinter.BOTH, expand=True)
 
         verscrlbar = ttk.Scrollbar(self.root,
@@ -99,34 +103,73 @@ class ModbusOop(object):
 
         self.tree.bind("<Double-1>", self.on_double_click)
 
+        self.canvas.create_rectangle(10, 150, 1580, 170, fill='grey', outline='white', tag='rect1')
+        self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tag='rect2')
+        self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tag='rect3')
+
+        start2 = 190
+        for y in range(8):
+            self.canvas.create_rectangle(365, start2, 385, start2 + 10, fill='blue', outline='white',
+                                         stipple='gray50', tag='rect6')
+            start2 += 40
+
+        start3 = 45
+        n = 1
+        for z in range(26):
+            self.canvas.create_text(start3, 140, text=n)
+            self.canvas.create_text(start3, 530, text=n + 34)
+            start3 += 60
+            n += 1
+
+        start4 = 195
+        f = 27
+        for t in range(8):
+            self.canvas.create_text(395, start4, text=f)
+            start4 += 40
+            f += 1
+
         rem = rm.RecordMongo
 
         start_range = 0
+        id_count = 1
+        start1 = 40
 
         self.tree.tag_configure('high', foreground='red')
         self.tree.tag_configure('low', foreground='black')
 
         for record in rem.record_mongo()[-(self.count // 2):]:
-            if float(record[1]) > float(30.0):
+            if float(record[1]) > 30.0:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
+                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='red', outline='white',
+                                             stipple='gray50', tag='rect4')
+                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='red', outline='white',
+                                             stipple='gray50', tag='rect5')
             else:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
-
+                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='blue', outline='white',
+                                             stipple='gray50', tag='rect4')
+                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='blue', outline='white',
+                                             stipple='gray50', tag='rect5')
             start_range += 1
+            start1 += 60
+            id_count += 1
 
         menu = Menu(self.root)
         self.root.config(menu=menu)
         menu.add_cascade(label='Quit', command=self._quit)
 
         self.tree.after(60000, self.update_window_table)
+        self.canvas.pack()
         return self.root.mainloop()
 
     def update_window_table(self):
         rem = rm.RecordMongo
 
         start_range = 0
+        id_count = 1
+        start1 = 40
 
         for i in self.tree.get_children():
             self.tree.delete(i)
@@ -135,12 +178,23 @@ class ModbusOop(object):
             if float(record[1]) > 30.0:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
+                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='red', outline='white',
+                                             stipple='gray50', tag='rect4')
+                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='red', outline='white',
+                                             stipple='gray50', tag='rect5')
             else:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
+                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='blue', outline='white',
+                                             stipple='gray50', tag='rect4')
+                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='blue', outline='white',
+                                             stipple='gray50', tag='rect5')
             start_range += 1
+            start1 += 60
+            id_count += 1
 
         self.root.update()
         self.root.update_idletasks()
         self.tree.after(60000, self.update_window_table)
+        self.canvas.pack()
         return self.root.mainloop()
