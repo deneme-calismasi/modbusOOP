@@ -232,7 +232,7 @@ class ModbusOop(object):
 
         start_range = 0
         id_count = 1
-        start1 = 40
+        start = 40
 
         for i in self.tree.get_children():
             self.tree.delete(i)
@@ -241,41 +241,88 @@ class ModbusOop(object):
             if float(record[1]) > 30.0:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
-                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='red', outline='white',
-                                             stipple='gray50', tag='rect4')
+                if record[0] <= 26.0:
+                    # ust cizgi
+                    x_to_add = 60
+                    y_lower, y_upper = 150, 170
+                    if float(record[1]) > 30.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    else:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    start += x_to_add
 
-                start2 = 40
-                for v in range(35, 61):
-                    self.canvas.create_rectangle(start2, 500, start2 + 10, 520, fill='red', outline='white',
-                                                 stipple='gray50', tag='rect5')
-                    start2 += 60
+                    if record[0] == 26:
+                        start = 190
 
-                start3 = 190
-                for y in range(27, 34):
-                    self.canvas.create_rectangle(365, start3, 385, start3 + 10, fill='red', outline='white',
-                                                 stipple='gray50')
-                    start3 += 40
+                elif 26.0 < record[0] < 35.0:
+                    y_to_add = 40
+                    x_lower, x_upper = 365, 385
+                    if float(record[1]) > 25.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    else:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    start += y_to_add
+                    if record[0] == 34:
+                        start = 40
+
+                else:
+                    # alt cizgi
+                    x_to_add = 60
+                    y_lower, y_upper = 500, 520
+                    if float(record[1]) > 25:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    else:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    start += x_to_add
 
             else:
-                self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
-                                 values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
-                self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='blue', outline='white',
-                                             stipple='gray50', tag='rect4')
+                if record[0] <= 26.0:
+                    # ust cizgi
+                    x_to_add = 60
+                    y_lower, y_upper = 150, 170
+                    if float(record[1]) > 30.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    else:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    start += x_to_add
 
-                start2 = 40
-                for v in range(35, 61):
-                    self.canvas.create_rectangle(start2, 500, start2 + 10, 520, fill='blue', outline='white',
-                                                 stipple='gray50')
-                    start2 += 60
+                    if record[0] == 26:
+                        start = 190
 
-                start3 = 190
-                for y in range(27, 34):
-                    self.canvas.create_rectangle(365, start3, 385, start3 + 10, fill='blue', outline='white',
-                                                 stipple='gray50')
-                    start3 += 40
+                elif 26.0 < record[0] < 35.0:
+                    y_to_add = 40
+                    x_lower, x_upper = 365, 385
+                    if float(record[1]) > 25.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    else:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    start += y_to_add
+                    if record[0] == 34:
+                        start = 40
+
+                else:
+                    # alt cizgi
+                    x_to_add = 60
+                    y_lower, y_upper = 500, 520
+                    if float(record[1]) > 25:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    else:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    start += x_to_add
 
             start_range += 1
-            start1 += 60
             id_count += 1
 
         self.root.update()
