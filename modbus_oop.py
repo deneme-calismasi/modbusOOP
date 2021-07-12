@@ -107,12 +107,6 @@ class ModbusOop(object):
         self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tag='rect2')
         self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tag='rect3')
 
-        start2 = 190
-        for y in range(8):
-            self.canvas.create_rectangle(365, start2, 385, start2 + 10, fill='blue', outline='white',
-                                         stipple='gray50', tag='rect6')
-            start2 += 40
-
         start3 = 45
         n = 1
         for z in range(26):
@@ -143,15 +137,36 @@ class ModbusOop(object):
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('high',))
                 self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='red', outline='white',
                                              stipple='gray50', tag='rect4')
-                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='red', outline='white',
-                                             stipple='gray50', tag='rect5')
+
+                start2 = 40
+                for v in range(26):
+                    self.canvas.create_rectangle(start2, 500, start2 + 10, 520, fill='red', outline='white',
+                                                 stipple='gray50', tag='rect5')
+                    start2 += 60
+
+                start3 = 190
+                for y in range(8):
+                    self.canvas.create_rectangle(365, start3, 385, start3 + 10, fill='red', outline='white',
+                                                 stipple='gray50')
+
             else:
                 self.tree.insert("", index='end', text="%s" % int(record[0]), iid=start_range,
                                  values=(str(record[2]), int(record[0]), float(record[1])), tags=('low',))
                 self.canvas.create_rectangle(start1, 150, start1 + 10, 170, fill='blue', outline='white',
                                              stipple='gray50', tag='rect4')
-                self.canvas.create_rectangle(start1, 500, start1 + 10, 520, fill='blue', outline='white',
-                                             stipple='gray50', tag='rect5')
+
+                start2 = 40
+                for v in range(26):
+                    self.canvas.create_rectangle(start2, 500, start2 + 10, 520, fill='blue', outline='white',
+                                                 stipple='gray50')
+                    start2 += 60
+
+                start3 = 190
+                for y in range(8):
+                    self.canvas.create_rectangle(365, start3, 385, start3 + 10, fill='blue', outline='white',
+                                                 stipple='gray50')
+                    start3 += 40
+
             start_range += 1
             start1 += 60
             id_count += 1
