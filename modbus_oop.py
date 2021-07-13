@@ -14,7 +14,7 @@ import numpy as np
 
 class ModbusOop(object):
     def __init__(self):
-        self.count = int(cnf.cnfOperation.readModBusCount())
+        self.regs_count = int(cnf.cnfOperation.readModBusRegsCount())
         self.root = tk.Tk()
         self.style = ttk.Style()
         self.style.map("Treeview", foreground=self.fixed_map("foreground"), background=self.fixed_map("background"))
@@ -131,7 +131,7 @@ class ModbusOop(object):
         self.tree.tag_configure('high', foreground='red')
         self.tree.tag_configure('low', foreground='black')
 
-        for record in rem.record_mongo()[-(self.count // 2):]:
+        for record in rem.record_mongo()[-(self.regs_count // 2):]:
             sensor_id = record[0]
             temperature = record[1]
             date_time = record[2]
@@ -242,7 +242,7 @@ class ModbusOop(object):
         for i in self.tree.get_children():
             self.tree.delete(i)
 
-        for record in rem.record_mongo()[-(self.count // 2):]:
+        for record in rem.record_mongo()[-(self.regs_count // 2):]:
             sensor_id = record[0]
             temperature = record[1]
             date_time = record[2]

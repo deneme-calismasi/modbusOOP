@@ -16,10 +16,16 @@ class cnfOperation():
         return config['Modbus_port']['port']
 
     @staticmethod
-    def readModBusCount():
+    def readModBusRegsCount():
         config = configparser.ConfigParser()
         config.read('Config.ini')
-        return config['Modbus_regs']['count']
+        return config['Modbus_regs_count']['regs_count']
+
+    @staticmethod
+    def readModBusReg_addr():
+        config = configparser.ConfigParser()
+        config.read('Config.ini')
+        return config['Modbus_reg_addr']['reg_addr']
 
     @staticmethod
     def readMongoDb():

@@ -8,9 +8,10 @@ class ListDict():
     @staticmethod
     def list_to_dict():
         con = cm.ConnectModbus()
-        count = int(cnf.cnfOperation.readModBusCount())
-        value = [[num for num in range(1, 1 + count // 2)],
-                 [num for num in range(1, 1 + count // 2)],
+        regs_count = int(cnf.cnfOperation.readModBusRegsCount())
+
+        value = [[num for num in range(1, 1 + (regs_count) // 2)],
+                 [num for num in range(1, 1 + (regs_count) // 2)],
                  con.connect_modbus()]
 
         data = np.array(value).T.tolist()
