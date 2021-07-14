@@ -72,6 +72,13 @@ class ModbusOop(object):
     def _quit(event):
         sys.exit()
 
+    def task_alert(self):
+        circle = self.root.after(400, self.task_alert)
+        if int(circle.split('#')[1]) % 2 == 0:
+            self.canvas.itemconfig('rect9', fill='blue')
+        else:
+            self.canvas.itemconfig('rect9', fill='red')
+
     def window_table(self):
 
         self.root.title("Sensor's Temperatures °C")
@@ -106,6 +113,7 @@ class ModbusOop(object):
         self.canvas.create_rectangle(10, 150, 1580, 170, fill='grey', outline='white', tag='rect1')
         self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tag='rect2')
         self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tag='rect3')
+        self.canvas.create_oval(1200, 240, 1400, 440, fill='blue', outline='white', tag='rect9')
 
         start3 = 45
         n = 1
@@ -136,9 +144,11 @@ class ModbusOop(object):
             temperature = record[1]
             date_time = record[2]
             if float(temperature) > 30.0:
+                self.task_alert()
                 self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('high',))
-                if sensor_id <= 26.0:
+
+                if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
@@ -153,7 +163,7 @@ class ModbusOop(object):
                     if sensor_id == 26:
                         start = 190
 
-                elif 26.0 < sensor_id < 35.0:
+                elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
                     if float(temperature) > 25.0:
@@ -181,7 +191,7 @@ class ModbusOop(object):
             else:
                 self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('low',))
-                if sensor_id <= 26.0:
+                if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
@@ -196,7 +206,7 @@ class ModbusOop(object):
                     if sensor_id == 26:
                         start = 190
 
-                elif 26.0 < sensor_id < 35.0:
+                elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
                     if float(temperature) > 30.0:
@@ -247,9 +257,11 @@ class ModbusOop(object):
             temperature = record[1]
             date_time = record[2]
             if float(temperature) > 30.0:
+                self.task_alert()
                 self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('high',))
-                if sensor_id <= 26.0:
+
+                if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
@@ -264,7 +276,7 @@ class ModbusOop(object):
                     if sensor_id == 26:
                         start = 190
 
-                elif 26.0 < sensor_id < 35.0:
+                elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
                     if float(temperature) > 25.0:
@@ -292,7 +304,7 @@ class ModbusOop(object):
             else:
                 self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('low',))
-                if sensor_id <= 26.0:
+                if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
@@ -307,7 +319,7 @@ class ModbusOop(object):
                     if sensor_id == 26:
                         start = 190
 
-                elif 26.0 < sensor_id < 35.0:
+                elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
                     if float(temperature) > 30.0:
