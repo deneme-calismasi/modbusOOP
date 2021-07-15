@@ -10,6 +10,7 @@ import recordMongo as rm
 import sys
 import plotly.express as px
 import numpy as np
+from PIL import Image, ImageTk
 
 
 class ModbusOop(object):
@@ -73,7 +74,7 @@ class ModbusOop(object):
         sys.exit()
 
     def task_alert(self):
-        circle = self.root.after(400, self.task_alert)
+        circle = self.root.after(500, self.task_alert)
         if int(circle.split('#')[1]) % 2 == 0:
             self.canvas.itemconfig('rect9', fill='blue')
         else:
@@ -84,6 +85,10 @@ class ModbusOop(object):
         self.root.title("Sensor's Temperatures °C")
         self.root.geometry("480x630")
         self.root.grid()
+
+        photo = ImageTk.PhotoImage(Image.open('elec.png'))
+        label = tk.Label(self.root, image=photo, text='east')
+        label.place(x=1600, y=600)
 
         p1 = PhotoImage(file='images1.png')
         self.root.iconphoto(False, p1)
@@ -113,7 +118,7 @@ class ModbusOop(object):
         self.canvas.create_rectangle(10, 150, 1580, 170, fill='grey', outline='white', tag='rect1')
         self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tag='rect2')
         self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tag='rect3')
-        self.canvas.create_oval(1200, 240, 1400, 440, fill='blue', outline='white', tag='rect9')
+        self.canvas.create_oval(1100, 240, 1300, 440, fill='blue', outline='white', tag='rect9')
 
         start3 = 45
         n = 1
@@ -155,6 +160,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
                                                      stipple='gray50', tag='rect4')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect4')
@@ -169,6 +180,12 @@ class ModbusOop(object):
                     if float(temperature) > 25.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
                                                      stipple='gray50', tag='rect5')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect5')
@@ -182,6 +199,9 @@ class ModbusOop(object):
                     y_lower, y_upper = 500, 520
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
                                                      stipple='gray50', tag='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
@@ -198,6 +218,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
                                                      stipple='gray50', tag='rect4')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect4')
@@ -212,6 +238,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
                                                      stipple='gray50', tag='rect5')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect5')
@@ -225,6 +257,12 @@ class ModbusOop(object):
                     y_lower, y_upper = 500, 520
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
                                                      stipple='gray50', tag='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
@@ -268,6 +306,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
                                                      stipple='gray50', tag='rect4')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect4')
@@ -279,8 +323,14 @@ class ModbusOop(object):
                 elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
-                    if float(temperature) > 25.0:
+                    if float(temperature) > 30.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
                                                      stipple='gray50', tag='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
@@ -295,6 +345,12 @@ class ModbusOop(object):
                     y_lower, y_upper = 500, 520
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
                                                      stipple='gray50', tag='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
@@ -311,6 +367,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
                                                      stipple='gray50', tag='rect4')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect4')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect4')
@@ -325,6 +387,12 @@ class ModbusOop(object):
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
                                                      stipple='gray50', tag='rect5')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect5')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
+                                                     stipple='gray50', tag='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
                                                      stipple='gray50', tag='rect5')
@@ -338,6 +406,12 @@ class ModbusOop(object):
                     y_lower, y_upper = 500, 520
                     if float(temperature) > 30.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 10.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
+                                                     stipple='gray50', tag='rect6')
+                    elif float(temperature) < 0.0:
+                        self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
                                                      stipple='gray50', tag='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
