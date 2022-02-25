@@ -115,10 +115,10 @@ class ModbusOop(object):
 
         self.tree.bind("<Double-1>", self.on_double_click)
 
-        self.canvas.create_rectangle(10, 150, 1580, 170, fill='grey', outline='white', tag='rect1')
-        self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tag='rect2')
-        self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tag='rect3')
-        self.canvas.create_oval(1100, 240, 1300, 440, fill='blue', outline='white', tag='rect9')
+        self.canvas.create_rectangle(10, 150, 1580, 170, fill='grey', outline='white', tags='rect1')
+        self.canvas.create_rectangle(10, 500, 1580, 520, fill='grey', outline='white', tags='rect2')
+        self.canvas.create_rectangle(365, 170, 385, 500, fill='grey', outline='white', tags='rect3')
+        self.canvas.create_oval(1100, 240, 1300, 440, fill='blue', outline='white', tags='rect9')
 
         start3 = 45
         n = 1
@@ -148,27 +148,27 @@ class ModbusOop(object):
             sensor_id = record[0]
             temperature = record[1]
             date_time = record[2]
-            if float(temperature) > 30.0:
+            if float(temperature) > 20.0:
                 self.task_alert()
-                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
+                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=str(start_range),
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('high',))
 
                 if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     start += x_to_add
 
                     if sensor_id == 26:
@@ -179,16 +179,16 @@ class ModbusOop(object):
                     x_lower, x_upper = 365, 385
                     if float(temperature) > 25.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     start += y_to_add
                     if sensor_id == 34:
                         start = 40
@@ -197,36 +197,36 @@ class ModbusOop(object):
                     # alt cizgi
                     x_to_add = 60
                     y_lower, y_upper = 500, 520
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     start += x_to_add
 
             else:
-                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
+                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=str(start_range),
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('low',))
                 if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     start += x_to_add
 
                     if sensor_id == 26:
@@ -235,18 +235,18 @@ class ModbusOop(object):
                 elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     start += y_to_add
                     if sensor_id == 34:
                         start = 40
@@ -255,18 +255,18 @@ class ModbusOop(object):
                     # alt cizgi
                     x_to_add = 60
                     y_lower, y_upper = 500, 520
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     start += x_to_add
 
             start_range += 1
@@ -276,7 +276,7 @@ class ModbusOop(object):
         self.root.config(menu=menu)
         menu.add_cascade(label='Quit', command=self._quit)
 
-        self.tree.after(60000, self.update_window_table)
+        self.tree.after(20000, self.update_window_table)
         self.canvas.pack()
         return self.root.mainloop()
 
@@ -294,27 +294,27 @@ class ModbusOop(object):
             sensor_id = record[0]
             temperature = record[1]
             date_time = record[2]
-            if float(temperature) > 30.0:
+            if float(temperature) > 20.0:
                 self.task_alert()
-                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
+                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=str(start_range),
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('high',))
 
                 if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     start += x_to_add
 
                     if sensor_id == 26:
@@ -323,18 +323,18 @@ class ModbusOop(object):
                 elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     start += y_to_add
                     if sensor_id == 34:
                         start = 40
@@ -343,39 +343,39 @@ class ModbusOop(object):
                     # alt cizgi
                     x_to_add = 60
                     y_lower, y_upper = 500, 520
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     start += x_to_add
 
             else:
-                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=start_range,
+                self.tree.insert("", index='end', text="%s" % int(sensor_id), iid=str(start_range),
                                  values=(str(date_time), int(sensor_id), float(temperature)), tags=('low',))
                 if sensor_id <= 26:
                     # ust cizgi
                     x_to_add = 60
                     y_lower, y_upper = 150, 170
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect4')
+                                                     stipple='gray50', tags='rect4')
                     start += x_to_add
 
                     if sensor_id == 26:
@@ -384,18 +384,18 @@ class ModbusOop(object):
                 elif 26 < sensor_id < 35:
                     y_to_add = 40
                     x_lower, x_upper = 365, 385
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     else:
                         self.canvas.create_rectangle(x_lower, start, x_upper, start + 10, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect5')
+                                                     stipple='gray50', tags='rect5')
                     start += y_to_add
                     if sensor_id == 34:
                         start = 40
@@ -404,18 +404,18 @@ class ModbusOop(object):
                     # alt cizgi
                     x_to_add = 60
                     y_lower, y_upper = 500, 520
-                    if float(temperature) > 30.0:
+                    if float(temperature) > 20.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='red', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 10.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='grey', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     elif float(temperature) < 0.0:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='black', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     else:
                         self.canvas.create_rectangle(start, y_lower, start + 10, y_upper, fill='blue', outline='white',
-                                                     stipple='gray50', tag='rect6')
+                                                     stipple='gray50', tags='rect6')
                     start += x_to_add
 
             start_range += 1
@@ -423,6 +423,6 @@ class ModbusOop(object):
 
         self.root.update()
         self.root.update_idletasks()
-        self.tree.after(60000, self.update_window_table)
+        self.tree.after(20000, self.update_window_table)
         self.canvas.pack()
         return self.root.mainloop()
