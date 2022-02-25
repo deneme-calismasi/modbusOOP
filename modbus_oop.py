@@ -70,7 +70,7 @@ class ModbusOop(object):
 
         return fig.show()
 
-    def _quit(event):
+    def quit(event):
         sys.exit()
 
     def task_alert(self):
@@ -274,7 +274,7 @@ class ModbusOop(object):
 
         menu = Menu(self.root)
         self.root.config(menu=menu)
-        menu.add_cascade(label='Quit', command=self._quit)
+        menu.add_cascade(label='Quit', command=self.quit)
 
         self.tree.after(20000, self.update_window_table)
         self.canvas.pack()
